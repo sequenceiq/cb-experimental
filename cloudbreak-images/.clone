@@ -1,0 +1,3 @@
+git init
+git remote add origin git@github.com:sequenceiq/cloudbreak-images.git
+git pull origin centos-7

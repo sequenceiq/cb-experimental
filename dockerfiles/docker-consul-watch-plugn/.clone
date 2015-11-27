@@ -1,0 +1,3 @@
+git init
+git remote add origin git@github.com:sequenceiq/docker-consul-watch-plugn.git
+git pull origin master

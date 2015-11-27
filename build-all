@@ -1,0 +1,7 @@
+ROOT=$(pwd)
+find . -name ".clone"|while read fname; do
+  echo $fname
+  chmod +x $fname
+  DIR=$(dirname "${fname}") && cd $DIR && ./.clone && cd $ROOT
+done
+./gradlew clean build

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+        "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+        "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+    <!-- suppressing checks in real classes -->
+    <suppress checks="ParameterNumber|ClassFanOutComplexity|CyclomaticComplexity|JavaNCSS|NPathComplexity" files="PublicKeyReaderUtil.java"/>
+    <suppress checks="ParameterNumber|ClassFanOutComplexity|CyclomaticComplexity|JavaNCSS|NPathComplexity" files="StatusToPollGroupConverter.java"/>
+    <!-- cases are increasing the the complexity since the switchBlockAsSingleDecisionPoint=true parameter does not work  -->
+    <suppress checks="ParameterNumber|ClassFanOutComplexity|CyclomaticComplexity|JavaNCSS|NPathComplexity" files="ContainerConfigService.java"/>
+    <suppress checks="IllegalCatch" files="GcpProvisionSetup.java"/>
+    <suppress checks="IllegalThrow" files="ConcurrentMethodExecutionAspect.java"/>
+    <suppress checks="HideUtilityClassConstructor" files=".*Application.java" />
+
+    <!-- suppressing checks in application runner classes -->
+    <suppress id="sysout" files="VersionedApplication.java"/>
+    <suppress id="sysout" files="CloudbreakShell.java" />
+    <suppress id="systhrow" files="CloudbreakShell.java" />
+    <suppress checks="string-instantiation" files="CredentialCommands.java" />
+    <suppress checks="ParameterNumber|ClassFanOutComplexity|CyclomaticComplexity|JavaNCSS|NPathComplexity" files=".*Commands.java" />
+    <suppress id="sysout" files="ShellConfiguration.java"/>
+    <suppress id="sysout" files="TableRendererTest.java"/>
+
+    <!-- autoscale -->
+    <suppress checks="HideUtilityClassConstructor" files="PeriscopeApplication.java" />
+    <suppress id="string-instantiation" files="AmbariConfigurationService.java"/>
+    <suppress id="string-instantiation" files="RemoteUserDetailsService.java"/>
+    <suppress checks="InnerAssignment" files="ScalingPolicyConverter.java" />
+    <suppress id="sysout" files="VersionedApplication.java"/>
+    <suppress checks="HideUtilityClassConstructor" files=".*Application.java" />
+
+    <!-- rest client -->
+    <suppress checks="HideUtilityClassConstructor" files=".*CloudbreakClientMain.java" />
+    <suppress id="IllegalTypeImpl" files="test" />
+    <suppress checks="IllegalCatch" files="test" />
+    <suppress checks="AbstractClassName" files="test" />
+    <suppress checks="EmptyBlock" files="test" />
+    <suppress checks="sysout" files="CloudbreakShell.java" />
+    <suppress checks="string-instantiation" files="CredentialCommands.java" />
+    <suppress checks="HideUtilityClassConstructor" files=".*Application.java" />
+
+    <!-- azure rest client -->
+    <suppress checks="HideUtilityClassConstructor" files=".*AzureClientMain.java" />
+    
+    <!-- ambari rest client -->
+     <suppress checks=".*" files="App.java"/>
+
+    <!-- suppress test classes in generated code -->
+    <suppress checks="IllegalTypeImpl|IllegalCatch|AbstractClassName|EmptyBlock|RedundantThrows|MagicNumberCheck|ParameterNumber|ClassFanOutComplexity|CyclomaticComplexity|JavaNCSS|NPathComplexity" files="test|Dummy|Mock"/>
+
+    <!-- suppress everything in generated code -->
+    <suppress checks=".*" files="generated"/>
+    <!-- -->
+
+    <!-- suppress everything in package level JavaDoc files -->
+    <suppress checks=".*" files="package-info.java"/>
+
+</suppressions>

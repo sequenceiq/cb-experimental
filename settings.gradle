@@ -1,0 +1,27 @@
+include 'cloudbreak-core'
+include 'cloudbreak-core:core-model'
+include 'cloudbreak-core:core'
+include 'cloudbreak-core:integration-test'
+include 'cloudbreak-core:orchestrator-swarm'
+include 'cloudbreak-core:orchestrator-api'
+include 'cloudbreak-core:cloud-api'
+include 'cloudbreak-core:cloud-reactor-api'
+include 'cloudbreak-core:cloud-reactor'
+include 'cloudbreak-core:cloud-openstack'
+include 'cloudbreak-core:cloud-arm'
+include 'cloudbreak-core:cloud-common'
+include 'cloudbreak-core:cloud-gcp'
+include 'cloudbreak-core:cloud-aws'
+include 'cloudbreak-core:cloud-template'
+
+include 'cloudbreak-shell'
+
+include 'cloudbreak-rest-client'
+
+include 'cloudbreak-autoscale'
+
+include 'ambari-rest-client'
+
+include 'azure-rest-client'
+
+rootProject.name = 'cloudbreak'

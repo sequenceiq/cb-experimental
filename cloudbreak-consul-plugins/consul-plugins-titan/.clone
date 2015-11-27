@@ -1,0 +1,3 @@
+git init
+git remote add origin git@github.com:sequenceiq/consul-plugins-titan.git
+git pull origin master

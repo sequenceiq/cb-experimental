@@ -1,0 +1,4 @@
+git init
+git remote add origin git@github.com:sequenceiq/docker-cb-shell.git
+git pull origin master
+
