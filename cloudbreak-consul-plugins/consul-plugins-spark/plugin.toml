@@ -1,0 +1,11 @@
+[plugin]
+name = "spark"
+description = "Install Apache Spark to HDP cluster"
+version = "1.0"
+maintainer_name = "SequenceIQ"
+maintainer_email = "info@sequenceiq.com"
+website_url = "http://github.com/sequenceiq/consul-plugins-spark"
+
+[plugin.config]
+
+[plugin.compatibility]

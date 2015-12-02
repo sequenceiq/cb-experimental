@@ -1,0 +1,30 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.7
+
+jar {
+    baseName = 'cloudbreak-shell'
+    manifest {
+        attributes("Implementation-Title": "Gradle",
+                   "Implementation-Version": version)
+    }
+}
+
+mainClassName = 'com.sequenceiq.cloudbreak.shell.CloudbreakShell'
+
+dependencies {
+    compile 'org.springframework.shell:spring-shell:1.1.0.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter:1.0.0.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-test:1.0.0.RELEASE'
+    compile 'org.springframework:spring-web:4.1.0.RELEASE'
+    testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'junit:junit:4.10'
+    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+    compile 'org.apache.httpcomponents:httpclient:4.3.5'
+
+    compile project(':cloudbreak-rest-client')
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test:1.0.2.RELEASE'
+    deployerJars 'org.springframework.build.aws:org.springframework.build.aws.maven:3.0.0.RELEASE'
+}

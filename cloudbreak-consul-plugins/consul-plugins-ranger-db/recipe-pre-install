@@ -1,0 +1,22 @@
+#!/bin/bash
+
+: ${LOGFILE:=/var/log/consul-watch/consul_handler.log}
+
+main(){
+  if service postgresql status > /dev/null; then
+    service postgresql stop
+  fi
+
+  export ROOT_PW=admin
+  export PGDATA=/var/lib/pgsql/data
+
+  rm -rf $PGDATA
+  echo "$ROOT_PW" >> /tmp/pw
+  su postgres -c 'initdb -U postgres --pwfile=/tmp/pw --auth=md5'
+  rm -f /tmp/pw
+  service postgresql start
+}
+
+exec &>> "$LOGFILE"
+[[ "$0" == "$BASH_SOURCE" ]] && main "$@"
+

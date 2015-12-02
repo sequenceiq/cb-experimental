@@ -1,0 +1,7 @@
+: ${CUSTOM_TAG:=custom}
+
+ROOT=$(pwd)
+find . -name "Dockerfile"|while read fname; do
+  echo $fname
+  DIR=$(dirname "${fname}") && cd $DIR && LAST_DIR=$(basename $PWD) && CONTAINER_NAME=$(echo $LAST_DIR|sed 's,docker-,,g') && docker build -t $CONTAINER_NAME:$CUSTOM_TAG . && cd $ROOT
+done

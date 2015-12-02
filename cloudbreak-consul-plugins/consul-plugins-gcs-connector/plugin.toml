@@ -1,0 +1,11 @@
+[plugin]
+name = "gcs-connector"
+description = "downloads the Google Cloud Storage Connector for Hadoop"
+version = "1.0"
+maintainer_name = "SequenceIQ"
+maintainer_email = "info@sequenceiq.com"
+website_url = "http://github.com/sequenceiq/consul-plugins-gcs-connector"
+
+[plugin.config]
+
+[plugin.compatibility]

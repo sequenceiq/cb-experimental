@@ -1,0 +1,1 @@
+git clone "$url" $AVAIL_PLUGIN_PATH/$name

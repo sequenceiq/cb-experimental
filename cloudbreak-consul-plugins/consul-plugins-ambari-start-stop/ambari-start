@@ -1,0 +1,28 @@
+#!/bin/bash
+
+: ${LOGFILE:=/tmp/ambari_consul_start.log}
+: ${DEBUG:=1}
+
+main(){
+  debug "ambari agent start event triggered."
+  ambari-agent status
+  if [ $? -eq 0 ]; then
+      debug "Ambari agent already running."
+  else
+      debug "Ambari agent starting..."
+      result=$(ambari-agent start -v)
+      if echo $result | grep "already running" ; then
+          debug "Ambari agent already running."
+      elif echo $result | grep "Ambari Agent successfully started" ; then
+          debug "Ambari agent successfully started."
+      else
+          exit -1
+      fi
+  fi
+}
+
+debug(){
+  [[ "$DEBUG" ]] && echo "[DEBUG] $(date) [ambari-agent] $*" >> $LOGFILE
+}
+
+[[ "$0" == "$BASH_SOURCE" ]] && main "$@"

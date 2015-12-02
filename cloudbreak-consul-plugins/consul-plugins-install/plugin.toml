@@ -1,0 +1,11 @@
+[plugin]
+name = "install"
+description = "Installs a new plugin from a Github repository."
+version = "1.0"
+maintainer_name = "SequenceIQ"
+maintainer_email = "info@sequenceiq.com"
+website_url = "http://github.com/sequenceiq/consul-plugins-install"
+
+[plugin.config]
+
+[plugin.compatibility]

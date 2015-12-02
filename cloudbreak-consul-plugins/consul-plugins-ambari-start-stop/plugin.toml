@@ -1,0 +1,11 @@
+[plugin]
+name = "ambari-start-stop"
+description = "start/stop ambari agents"
+version = "1.0"
+maintainer_name = "SequenceIQ"
+maintainer_email = "info@sequenceiq.com"
+website_url = "http://github.com/sequenceiq/consul-plugins-ambari-start-stop"
+
+[plugin.config]
+
+[plugin.compatibility]

@@ -1,0 +1,65 @@
+apply plugin: 'application'
+
+jar {
+    baseName = 'cloudbreak-rest-client'
+    manifest {
+        attributes 'Main-Class': 'com.sequenceiq.cloudbreak.main.CloudbreakClientMain'
+    }
+
+}
+
+task buildInfo(type: BuildInfoTask) {
+    destination = file("$buildDir")
+    applicationPropertiesPath = "$buildDir"
+    basename = jar.baseName
+    buildVersion = version
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+compileJava.dependsOn buildInfo
+mainClassName = "com.sequenceiq.cloudbreak.main.CloudbreakClientMain"
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.7'
+    compile 'org.slf4j:slf4j-log4j12:1.7.7'
+    compile 'org.codehaus.groovy:groovy-all:2.4.4'
+    compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+
+    testCompile 'org.easymock:easymock:3.2'
+    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+    deployerJars 'org.springframework.build.aws:org.springframework.build.aws.maven:3.0.0.RELEASE'
+}
+
+class BuildInfoTask extends DefaultTask {
+    File destination = new File("build.info")
+    String applicationPropertiesPath
+    String basename
+    String buildVersion
+
+    @TaskAction
+    def writeBuildInfo() {
+        destination.mkdirs()
+        File applicationDestination = new File(applicationPropertiesPath + "/resources/main")
+        applicationDestination.mkdirs()
+        new File(destination, "build.info").withWriter { out ->
+            [
+                    "ARTIFACT_BASENAME=" + basename,
+                    "ARTIFACT_VERSION=" + buildVersion,
+            ].each { out.println it }
+        }
+        new File(applicationDestination, "application.properties").withWriter { out ->
+            [
+                    "info.app.name=" + basename,
+                    "info.app.version=" + buildVersion
+            ].each { out.println it }
+        }
+    }
+}
+
+artifacts {
+    archives sourcesJar
+}

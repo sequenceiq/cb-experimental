@@ -1,0 +1,58 @@
+#!/bin/bash
+
+: ${LOGFILE:=/tmp/create_kdc.log}
+: ${DEBUG:=1}
+
+destroy_db() {
+  debug "Destroying current kerberos DB"
+  /usr/sbin/kdb5_util destroy -f
+}
+
+create_db() {
+  debug "Create new kerberos DB"
+  /usr/sbin/kdb5_util -P $KERB_MASTER_KEY -r $REALM create -s
+}
+
+stop_kdc() {
+  debug "Stop KDC"
+  /etc/rc.d/init.d/krb5kdc stop
+  /etc/rc.d/init.d/kadmin stop
+}
+
+start_kdc() {
+  debug "Start KDC"
+  /etc/rc.d/init.d/krb5kdc start
+  /etc/rc.d/init.d/kadmin start
+
+  chkconfig krb5kdc on
+  chkconfig kadmin on
+}
+
+restart_kdc() {
+  debug "Restart KDC"
+  /etc/rc.d/init.d/krb5kdc restart
+  /etc/rc.d/init.d/kadmin restart
+}
+
+create_admin_user() {
+  debug "Create admin user"
+  kadmin.local -q "addprinc -pw $KERB_ADMIN_PASS $KERB_ADMIN_USER/admin"
+  echo "*/admin@$REALM *" > /var/kerberos/krb5kdc/kadm5.acl
+}
+
+main() {
+  export KERB_ADMIN_USER=$(echo $PAYLOAD | cut -d" " -f 1);
+  export KERB_ADMIN_PASS=$(echo $PAYLOAD | cut -d" " -f 2);
+  export KERB_MASTER_KEY=$(echo $PAYLOAD | cut -d" " -f 3);
+  export REALM=$(echo $PAYLOAD | cut -d" " -f 4);
+
+  create_db
+  create_admin_user
+  start_kdc
+}
+
+debug(){
+  [[ "$DEBUG" ]] && echo "[DEBUG] $*" >> $LOGFILE
+}
+
+[[ "$0" == "$BASH_SOURCE" ]] && main "$@"

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+: ${LOGFILE:=/tmp/ambari_consul_reset.log}
+: ${DEBUG:=1}
+
+main(){
+  debug "ambari reset event triggered."
+  jps | grep AmbariServer | awk {'print $1'} | xargs kill -9
+  PGPASSWORD=bigdata psql -h $POSTGRES_DB -U ambari postgres < /var/lib/ambari-server/resources/Ambari-DDL-Postgres-CREATE.sql
+  ambari-server start
+}
+
+debug(){
+  [[ "$DEBUG" ]] && echo "[DEBUG] $(date) [ambari-server] $*" >> $LOGFILE
+}
+
+[[ "$0" == "$BASH_SOURCE" ]] && main "$@"

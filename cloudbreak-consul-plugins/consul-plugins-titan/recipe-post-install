@@ -1,0 +1,41 @@
+: ${LOGFILE:=/tmp/install_titan.log}
+: ${DEBUG:=1}
+: ${TITAN_INSTALL_DIR:=/usr}
+
+
+main(){
+  cd $TITAN_INSTALL_DIR
+
+  debug "Getting titan db"
+  curl -O http://s3.thinkaurelius.com/downloads/titan/titan-0.5.4-hadoop2.zip
+  unzip titan-0.5.4-hadoop2.zip
+  rm titan-0.5.4-hadoop2.zip
+  mv titan-0.5.4-hadoop2 titan
+
+  debug "Getting titan-hbase.properties file"
+  curl -O https://raw.githubusercontent.com/sequenceiq/consul-plugins-titan/master/titan-hbase.properties
+
+  debug "Getting titan.sh file"
+  curl -O https://raw.githubusercontent.com/sequenceiq/consul-plugins-titan/master/titan.sh
+
+  debug "Getting rexster-hbase.xml file"
+  curl -O https://raw.githubusercontent.com/sequenceiq/consul-plugins-titan/master/rexster-hbase.xml
+
+  local host_name_for_titan=$(hostname -f)
+  echo $host_name_for_titan
+  sed -i s/titan_storage_hostname/$host_name_for_titan/g titan-hbase.properties titan-hbase.properties
+  sed -i s/titan_storage_hostname/$host_name_for_titan/g titan.sh titan.sh
+  sed -i s/titan_storage_hostname/$host_name_for_titan/g rexster-hbase.xml rexster-hbase.xml
+
+  mv titan.sh titan/bin/titan.sh && chmod +x titan/bin/titan.sh
+  mv titan-hbase.properties titan/conf/titan-hbase.properties
+  mv rexster-hbase.xml titan/conf/rexster-hbase.xml
+  cp /usr/hdp/current/hbase-client/conf/hbase-site.xml $TITAN_INSTALL_DIR/titan/conf/
+  titan/bin/titan.sh start
+}
+
+debug(){
+  [[ "$DEBUG" ]] && echo "[DEBUG] $*" >> $LOGFILE
+}
+
+[[ "$0" == "$BASH_SOURCE" ]] && main "$@"

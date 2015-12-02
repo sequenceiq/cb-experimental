@@ -1,7 +1,7 @@
 include 'cloudbreak-core'
 include 'cloudbreak-core:core-model'
 include 'cloudbreak-core:core'
-include 'cloudbreak-core:integration-test'
+include 'cloudbreak-core:cloudbreak-integration-test'
 include 'cloudbreak-core:orchestrator-swarm'
 include 'cloudbreak-core:orchestrator-api'
 include 'cloudbreak-core:cloud-api'

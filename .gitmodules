@@ -1,4 +1,0 @@
-[submodule "cloudbreak-core"]
-	path = cloudbreak-core
-	url = git@github.com:sequenceiq/cloudbreak.git
-	branch = ap

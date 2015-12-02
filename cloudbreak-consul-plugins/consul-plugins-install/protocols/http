@@ -1,0 +1,1 @@
+curl $(if [ -n "$userpass" ]; then echo --user $userpass; fi) "$url" > $AVAIL_PLUGIN_PATH/$name/$filename

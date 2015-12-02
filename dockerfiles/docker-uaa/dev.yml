@@ -1,0 +1,57 @@
+spring_profiles: postgresql
+
+database:
+  driverClassName: org.postgresql.Driver
+  url: jdbc:postgresql://${DB_PORT_5432_TCP_ADDR}:${DB_PORT_5432_TCP_PORT}/${DB_ENV_DB:postgres}
+  username: ${DB_ENV_USER:postgres}
+  password: ${DB_ENV_PASS:}
+
+oauth:
+  client:
+    override: true
+    autoapprove:
+      - cloudbreak_shell
+      - periscope-client
+  clients:
+    sultans:
+      id: sultans
+      secret: sultanssecret
+      authorized-grant-types: client_credentials
+      scope: scim.read,scim.write,password.write
+      authorities: uaa.resource,scim.write,scim.read,password.write
+    uluwatu:
+      id: uluwatu
+      secret: uluwatusecret
+      authorized-grant-types: authorization_code,client_credentials
+      scope: cloudbreak.templates,cloudbreak.blueprints,cloudbreak.credentials,cloudbreak.stacks,openid,password.write,cloudbreak.events,cloudbreak.usages.global,cloudbreak.usages.account,cloudbreak.usages.user,periscope.cluster,cloudbreak.recipes
+      authorities: cloudbreak.subscribe
+      redirect-uri: http://localhost:3000/authorize
+    cloudbreak:
+      id: cloudbreak
+      secret: cloudbreaksecret
+      authorized-grant-types: client_credentials
+      scope: scim.read,scim.write,password.write
+      authorities: uaa.resource,scim.read,scim.write,password.write
+    cloudbreak_shell:
+      id: cloudbreak_shell
+      authorized-grant-types: implicit
+      scope: cloudbreak.templates,cloudbreak.blueprints,cloudbreak.credentials,cloudbreak.stacks,openid,password.write,cloudbreak.recipes
+      authorities: uaa.none
+      redirect-uri: http://cloudbreak.shell
+    periscope-client:
+      id: periscope-client
+      authorized-grant-types: implicit
+      scope: cloudbreak.stacks,openid,periscope.cluster
+      authorities: uaa.none
+      redirect-uri: http://periscope.client
+    periscope:
+      id: periscope
+      secret: periscopesecret
+      authorized-grant-types: client_credentials
+      scope: none
+      authorities: cloudbreak.autoscale,uaa.resource,scim.read
+
+scim:
+  username_pattern: '[a-z0-9+\-_.@]+'
+  users:
+    - admin@sequenceiq.com|seqadmin|admin@sequenceiq.com|Default|User|openid,cloudbreak.templates,cloudbreak.blueprints,cloudbreak.credentials,cloudbreak.stacks,sequenceiq.cloudbreak.admin,sequenceiq.cloudbreak.user,sequenceiq.account.abcd1234.SequenceIQ,periscope.cluster,cloudbreak.events,cloudbreak.usages.global,cloudbreak.usages.account,cloudbreak.usages.user,cloudbreak.recipes

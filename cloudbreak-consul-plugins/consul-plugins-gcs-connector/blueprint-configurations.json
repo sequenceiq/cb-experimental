@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "core-site": {
+        "fs.gs.impl": "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem",
+        "fs.AbstractFileSystem.gs.impl": "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS",
+        "google.cloud.auth.service.account.enable": true,
+        "google.cloud.auth.service.account.keyfile": "/usr/lib/hadoop/lib/gcp.p12",
+        "fs.gs.project.id": "siq-haas",
+        "google.cloud.auth.service.account.email": "58633556797-20ii279qcq18bnd740ujov3j3v42kgrp@developer.gserviceaccount.com"
+      }
+    }
+  ]
+}

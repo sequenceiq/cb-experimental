@@ -1,0 +1,56 @@
+apply plugin: 'spring-boot'
+apply plugin: 'application'
+
+mainClassName = 'com.sequenceiq.periscope.PeriscopeApplication'
+
+
+jar { baseName = 'autoscale' }
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:1.0.2.RELEASE")
+    compile("org.springframework.security:spring-security-web:3.2.3.RELEASE")
+    compile("org.springframework.security.oauth:spring-security-oauth2:2.0.3.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:1.0.2.RELEASE")
+    compile("org.springframework:spring-context-support:4.0.3.RELEASE")
+    compile("org.apache.commons:commons-lang3:3.3.2")
+    compile("org.hsqldb:hsqldb:2.3.2")
+    compile("org.apache.hadoop:hadoop-yarn-client:${hadoopVersion}")
+    compile("org.apache.hadoop:hadoop-yarn-server-resourcemanager:${hadoopVersion}")
+    compile("org.apache.hadoop:hadoop-common:${hadoopVersion}")
+    compile project(':ambari-rest-client')
+    compile("javax.servlet:javax.servlet-api:3.0.1")
+    compile project(':cloudbreak-rest-client')
+    compile("org.freemarker:freemarker:2.3.20")
+    compile("javax.mail:mail:1.4.7")
+    compile("org.apache.httpcomponents:httpclient:4.3.5")
+    compile("joda-time:joda-time:2.5")
+    compile("net.sf.ehcache:ehcache:2.8.3")
+    compile("org.postgresql:postgresql:9.3-1101-jdbc41")
+    compile("org.hibernate:hibernate-validator:5.1.1.Final")
+    compile("org.quartz-scheduler:quartz:2.2.1")
+    compile("org.springframework.boot:spring-boot-actuator:1.0.2.RELEASE")
+    compile("dnsjava:dnsjava:2.1.7")
+    testCompile("junit:junit:4.11")
+    testCompile("org.mockito:mockito-all:1.9.5")
+    testCompile("org.springframework:spring-test:4.0.2.RELEASE")
+    deployerJars 'org.springframework.build.aws:org.springframework.build.aws.maven:3.0.0.RELEASE'
+}
+
+springBoot { mainClassName = "com.sequenceiq.periscope.PeriscopeApplication" }
+
+test {
+    include 'com/sequenceiq/**'
+    testLogging.showStandardStreams = true
+    ignoreFailures = false
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: " + descriptor)
+    }
+    onOutput { descriptor, event ->
+        logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message)
+    }
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpFile = file("$buildDir/jacoco/classpathdumps")
+    }
+}

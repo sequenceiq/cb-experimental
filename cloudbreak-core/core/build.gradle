@@ -1,0 +1,117 @@
+buildscript {
+    repositories {
+        maven { url 'http://repo.spring.io/libs-release' }
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "com.smokejumperit.gradle.license:Gradle-License-Report:0.0.2"
+    }
+}
+
+apply plugin: 'jacoco'
+apply plugin: 'sonar-runner'
+apply plugin: 'license-report'
+apply plugin: 'spring-boot'
+
+mainClassName = 'com.sequenceiq.cloudbreak.CloudbreakApplication'
+  
+jar {
+    baseName = 'cloudbreak-core'
+}
+
+dependencies {
+
+    compile group: 'org.springframework.boot',      name: 'spring-boot-starter',            version: springBootVersion
+    compile group: 'org.springframework.boot',      name: 'spring-boot-starter-web',        version: springBootVersion
+    compile group: 'org.springframework.boot',      name: 'spring-boot-starter-actuator',   version: springBootVersion
+    compile group: 'org.springframework.boot',      name: 'spring-boot-starter-data-jpa',   version: springBootVersion
+    compile group: 'org.springframework.boot',      name: 'spring-boot-starter-websocket',  version: springBootVersion
+    compile group: 'org.springframework.boot',      name: 'spring-boot-starter-aop',        version: springBootVersion
+    compile group: 'javax',                         name: 'javaee-api',                     version: '7.0'
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2',    version: '2.0.3.RELEASE'
+    compile group: 'org.springframework.security',  name: 'spring-security-config',         version: '3.2.3.RELEASE'
+    compile group: 'org.springframework.security',  name: 'spring-security-web',            version: '3.2.3.RELEASE'
+    compile group: 'org.springframework',           name: 'spring-messaging',               version: '4.0.3.RELEASE'
+    compile group: 'org.springframework',           name: 'spring-context-support',         version: '4.0.3.RELEASE'
+    compile group: 'io.projectreactor',             name: 'reactor-core',                   version: eventBusVersion
+    compile group: 'io.projectreactor',             name: 'reactor-bus',                    version: eventBusVersion
+    compile group: 'org.postgresql',                name: 'postgresql',                     version: '9.3-1101-jdbc41'
+    compile group: 'org.hibernate',                 name: 'hibernate-validator',            version: '5.1.1.Final'
+    compile group: 'org.apache.commons',            name: 'commons-lang3',                  version: '3.3.2'
+    compile group: 'com.sequenceiq',                name: 'consul-api',                     version: '1.10'
+    compile group: 'org.codehaus.jettison',         name: 'jettison',                       version: '1.3.5'
+    compile group: 'commons-io',                    name: 'commons-io',                     version: '2.4'
+    compile group: 'commons-net',                   name: 'commons-net',                    version: '3.3'
+    compile group: 'com.thoughtworks.xstream',      name: 'xstream',                        version: '1.4.7'
+    compile group: 'com.github.fommil',             name: 'openssh',                        version: '1.0'
+    compile group: 'javax.mail',                    name: 'mail',                           version: '1.5.0-b01'
+    compile group: 'org.freemarker',                name: 'freemarker',                     version: '2.3.20'
+    compile group: 'org.bouncycastle',              name: 'bcprov-jdk15on',                 version: '1.47'
+    compile group: 'org.bouncycastle',              name: 'bcpkix-jdk15on',                 version: '1.47'
+    compile group: 'org.jasypt',                    name: 'jasypt',                         version: '1.9.2'
+    compile group: 'com.google.guava',              name: 'guava',                          version: guavaVersion
+    compile group: 'com.wordnik',                   name: 'swagger-core',                   version: '1.5.2-M1'
+    compile group: 'com.mangofactory',              name: 'swagger-springmvc',              version: '1.0.2'
+    compile group: 'com.google.http-client',        name: 'google-http-client-jackson2',    version: '1.17.0-rc'
+    compile (group: 'com.google.oauth-client',      name: 'google-oauth-client-jetty',      version: '1.17.0-rc')   { exclude module: 'servlet-api' }
+    compile group: 'com.jcraft',                    name: 'jsch',                           version: '0.1.52'
+    compile group: 'com.hierynomus',                name: 'sshj',                           version: '0.15.0'
+    compile group: 'dnsjava',                       name: 'dnsjava',                        version: '2.1.7'
+    compile group: 'com.icegreen',                  name: 'greenmail',                       version: '1.4.1'
+
+    compile project(':cloudbreak-core:core-model')
+    compile project(':cloudbreak-core:orchestrator-api')
+    compile project(':cloudbreak-core:cloud-reactor-api')
+    compile project(':ambari-rest-client')
+    runtime project(':cloudbreak-core:orchestrator-swarm')
+    runtime project(':cloudbreak-core:cloud-reactor')
+    runtime project(':cloudbreak-core:cloud-openstack')
+    compile project(':cloudbreak-core:cloud-arm')
+    runtime project(':cloudbreak-core:cloud-gcp')
+    compile project(':cloudbreak-core:cloud-aws')
+
+    runtime     group: 'activation',                name: 'activation',                     version: '1.0.2'
+
+    testCompile project(path: ':cloudbreak-core:core-model', configuration: 'tests')
+    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    testCompile "org.springframework.boot:spring-boot-starter-freemarker:${springBootVersion}"
+    testCompile group: 'com.jayway.restassured',    name: 'rest-assured',                   version: '2.3.4'
+    testCompile group: 'com.jayway.restassured',    name: 'json-path',                      version: '2.3.4'
+}
+
+task buildInfo(type: BuildInfoTask) {
+    destination = file("$buildDir")
+    applicationPropertiesPath = "$buildDir"
+    basename = jar.baseName
+    buildVersion = version
+}
+
+compileJava.dependsOn buildInfo
+
+class BuildInfoTask extends DefaultTask {
+    File destination = new File("build.info")
+    String applicationPropertiesPath
+    String basename
+    String buildVersion
+
+    @TaskAction
+    def writeBuildInfo() {
+        destination.mkdirs()
+        File applicationDestination = new File(applicationPropertiesPath + "/resources/main")
+        applicationDestination.mkdirs()
+        new File(destination, "build.info").withWriter { out ->
+            [
+                    "ARTIFACT_BASENAME=" + basename,
+                    "ARTIFACT_VERSION=" + buildVersion,
+            ].each { out.println it }
+        }
+        new File(applicationDestination, "application.properties").withWriter { out ->
+            [
+                    "info.app.name=" + basename,
+                    "info.app.version=" + buildVersion
+            ].each { out.println it }
+        }
+    }
+}

@@ -1,3 +1,0 @@
-git init
-git remote add origin git@github.com:sequenceiq/consul-plugins-gcp-p12.git
-git pull origin master

@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+: ${LOGFILE:=/var/log/consul-watch/consul_handler.log}
+
+main(){
+  find / -name addMysqlUser.sh | while read line; do echo "removing mysql service stop from $line"; sed -i '\|/var/lib/ambari-agent/ambari-sudo.sh service $mysqldservice stop|d' $line; done
+}
+
+exec &> "$LOGFILE"
+[[ "$0" == "$BASH_SOURCE" ]] && main "$@"

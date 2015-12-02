@@ -1,0 +1,11 @@
+[plugin]
+name = "ranger-db"
+description = "Initializes and starts a PSQL database to store Ranger data."
+version = "1.0"
+maintainer_name = "SequenceIQ"
+maintainer_email = "info@sequenceiq.com"
+website_url = "http://github.com/sequenceiq/consul-plugins-ranger-db"
+
+[plugin.config]
+
+[plugin.compatibility]

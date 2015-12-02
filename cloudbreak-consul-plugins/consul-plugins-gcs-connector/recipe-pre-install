@@ -1,0 +1,16 @@
+#!/bin/bash
+
+: ${LOGFILE:=/tmp/plugn_gcs_connector.log}
+: ${DEBUG:=1}
+
+main(){
+  debug "Downloading GCS Connector for Hadoop"
+  curl -Lko /usr/lib/hadoop/lib/gcs-connector-hadoop2.jar https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-latest-hadoop2.jar
+  debug "Download finished"
+}
+
+debug(){
+  [[ "$DEBUG" ]] && echo "[DEBUG] $*" >> $LOGFILE
+}
+
+[[ "$0" == "$BASH_SOURCE" ]] && main "$@"

@@ -1,0 +1,11 @@
+[plugin]
+name = "create-kdc"
+description = "Configure and start a KDC for kerberos"
+version = "1.0"
+maintainer_name = "SequenceIQ"
+maintainer_email = "info@sequenceiq.com"
+website_url = "http://github.com/sequenceiq/consul-plugins-kerberos"
+
+[plugin.config]
+
+[plugin.compatibility]

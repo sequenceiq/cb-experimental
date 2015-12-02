@@ -1,0 +1,13 @@
+{
+    "cloudPlatform": "$CLOUD_PLATFORM",
+    "name": "$NAME",
+    "description": "$DESCRIPTION",
+    "volumeCount": "$VOLUME_COUNT",
+    "volumeSize": "$VOLUME_SIZE",
+    "parameters": {
+        "sshLocation": "$SSH_LOCATION",
+        "instanceType": "$INSTANCE_TYPE",
+        "volumeType": "$VOLUME_TYPE",
+        "encrypted": $ENCRYPTED
+    }
+}

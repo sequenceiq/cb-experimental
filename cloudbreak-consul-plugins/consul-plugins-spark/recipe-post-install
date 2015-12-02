@@ -1,0 +1,53 @@
+: ${LOGFILE:=/tmp/install_spark.log}
+: ${DEBUG:=1}
+
+: ${HDP_VERSION:=2.2.4.2-2}
+: ${SPARK_HDP_VERSION:=2.2.0.0-2041}
+: ${SPARK_VERSION:=1.2.0}
+: ${SPARK_DIST_PREFIX_VERSION:=2.2.0.0-82}
+: ${SPARK_HADOOP_VERSION:=2.6.0}
+
+SPARK_DIST_VERSION=$SPARK_VERSION.$SPARK_DIST_PREFIX_VERSION-bin-$SPARK_HADOOP_VERSION.$SPARK_HDP_VERSION
+SPARK_ASSEMBLY_VERSION=$SPARK_VERSION.$SPARK_DIST_PREFIX_VERSION-hadoop$SPARK_HADOOP_VERSION.$SPARK_HDP_VERSION
+
+set-default-spark-conf() {
+(cat <<- EOF
+spark.driver.extraJavaOptions -Dhdp.version=$HDP_VERSION
+spark.yarn.am.extraJavaOptions -Dhdp.version=$HDP_VERSION
+EOF
+) > $SPARK_HOME/conf/spark-defaults.conf
+}
+
+set-yarn-conf-dir() {
+(cat <<- EOF
+export YARN_CONF_DIR=/etc/hadoop/conf
+EOF
+) > $SPARK_HOME/conf/spark-env.sh
+}
+
+
+set-spark-on-tez-conf() {
+  cp /etc/hadoop/conf/core-site.xml $SPARK_HOME/external/spark-native-yarn/conf/
+  cp /etc/hadoop/conf/yarn-site.xml $SPARK_HOME/external/spark-native-yarn/conf/
+}
+
+install-spark() {
+  export SPARK_HOME=/usr/hdp/$HDP_VERSION/spark
+  curl -s http://public-repo-1.hortonworks.com/HDP-LABS/Projects/spark/$SPARK_VERSION/spark-$SPARK_DIST_VERSION.tgz | tar -xz -C /usr/hdp/$HDP_VERSION/
+  cd /usr/hdp/$HDP_VERSION && ln -s spark-$SPARK_DIST_VERSION spark
+  set-default-spark-conf
+  set-spark-on-tez-conf
+  set-yarn-conf-dir
+}
+
+main(){
+  debug "$(date) install Apache Spark event triggered."
+  install-spark
+  debug "$(date) installing Apache Spark done."
+}
+
+debug(){
+  [[ "$DEBUG" ]] && echo "[DEBUG] $*" >> $LOGFILE
+}
+
+[[ "$0" == "$BASH_SOURCE" ]] && main "$@"

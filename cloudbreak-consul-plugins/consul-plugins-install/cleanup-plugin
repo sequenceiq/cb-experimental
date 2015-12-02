@@ -1,0 +1,32 @@
+#!/bin/bash
+
+: ${LOGFILE:=/tmp/cleanup_purge.log}
+: ${PLUGIN_PATH:="/plugins"}
+: ${DEBUG:=1}
+
+main(){
+  debug "Cleanup plugins."
+  declare -a permanent_plugins
+  if [ -f $PLUGIN_PATH/permanent-plugins ]; then
+    local let i=0
+    while IFS=$'\n' read -r line; do
+        permanent_plugins[i]="${line}"
+        ((++i))
+    done < $PLUGIN_PATH/permanent-plugins
+  fi
+  debug "Permanent plugins: (${permanent_plugins[*]})."
+  for plugin in `ls $PLUGIN_PATH/available`; do
+    if [[ " ${permanent_plugins[*]} " != *" $plugin "* ]]; then
+      debug "Removing plugin ($plugin)."
+      rm -rf $PLUGIN_PATH/available/$plugin
+      rm -f $PLUGIN_PATH/enabled/$plugin || true
+    fi
+  done
+  debug "Cleanup done."
+}
+
+debug(){
+  [[ "$DEBUG" ]] && echo "[DEBUG] $*" >> $LOGFILE
+}
+
+[[ "$0" == "$BASH_SOURCE" ]] && main "$@"

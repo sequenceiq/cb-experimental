@@ -1,0 +1,16 @@
+#!/bin/bash
+
+[[ "$TRACE" ]] && set -x
+
+main() {
+    if ! [ -f /var/lib/postgresql/data/postgresql.conf ]; then
+        echo "[INFO] no DB found, intialize it from tgz"
+        tar -xzvf $BACKUP_TGZ -C /var/lib/postgresql/data/
+    else
+        echo "[INFO] previous DB found, leave it ..."
+    fi
+
+    /docker-entrypoint.sh "$@"
+}
+
+[[ "$0" == "$BASH_SOURCE" ]] && main "$@"

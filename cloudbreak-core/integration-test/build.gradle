@@ -1,0 +1,73 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+jar {
+    baseName = 'cloudbreak-integration-test'
+}
+
+apply plugin: 'spring-boot'
+
+mainClassName = 'com.sequenceiq.it.IntegrationTestApp'
+
+dependencies {
+    compile project(':cloudbreak-core:cloud-common')
+    compile project(':ambari-rest-client')
+    compile project(':cloudbreak-rest-client')
+    compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    compile "org.springframework:spring-web:4.1.4.RELEASE"
+    compile "org.springframework:spring-context-support:4.1.4.RELEASE"
+    compile "org.apache.httpcomponents:httpclient:4.3.5"
+    compile 'javax:javaee-api:7.0'
+    compile 'org.apache.velocity:velocity:1.7'
+    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+    compile 'com.jcraft:jsch:0.1.53'
+    compile "org.testng:testng:6.8.21"
+    compile ("org.uncommons:reportng:1.1.4") {
+        exclude group: "velocity"
+    }
+    runtime "com.google.inject:guice:3.0"
+    runtime "org.hibernate:hibernate-validator:5.1.1.Final"
+}
+
+task buildInfo(type: BuildInfoTask) {
+    destination = file("$buildDir")
+    applicationPropertiesPath = "$buildDir"
+    basename = jar.baseName
+    buildVersion = version
+}
+
+compileJava.dependsOn buildInfo
+
+class BuildInfoTask extends DefaultTask {
+    File destination = new File("build.info")
+    String applicationPropertiesPath
+    String basename
+    String buildVersion
+
+    @TaskAction
+    def writeBuildInfo() {
+        destination.mkdirs()
+        File applicationDestination = new File(applicationPropertiesPath + "/resources/main")
+        applicationDestination.mkdirs()
+        new File(destination, "build.info").withWriter { out ->
+            [
+                    "ARTIFACT_BASENAME=" + basename,
+                    "ARTIFACT_VERSION=" + buildVersion,
+            ].each { out.println it }
+        }
+        new File(applicationDestination, "application.properties").withWriter { out ->
+            [
+                    "info.app.name=" + basename,
+                    "info.app.version=" + buildVersion
+            ].each { out.println it }
+        }
+    }
+}

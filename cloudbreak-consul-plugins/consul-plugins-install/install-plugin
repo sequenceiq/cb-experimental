@@ -1,0 +1,97 @@
+#!/bin/bash
+
+: ${CONSUL_STORE:=http://localhost:8500/v1/kv/}
+: ${LOGFILE:=/tmp/install_download.log}
+: ${PLUGIN_PATH:="/plugins"}
+: ${DEBUG:=1}
+
+AVAIL_PLUGIN_PATH=$PLUGIN_PATH/available
+
+_get_user(){
+  local url="$1"
+  url="${url//\`/%60}"
+  url="${url//\"/%22}"
+  pattern='^(([a-z]{3,5})://)?((([^:\/]+)(:([^@\/]*))?@)?([^:\/?]+)(:([0-9]+))?)(\/[^?]*)?(\?[^#]*)?(#.*)?$'
+  [[ "$url" =~ $pattern ]]
+  if [ -n "${BASH_REMATCH[5]}" ]; then
+    local userpass=${BASH_REMATCH[5]}
+    if [ -n "${BASH_REMATCH[7]}" ]; then
+      userpass=$userpass:${BASH_REMATCH[7]}
+    fi
+    echo $userpass
+  fi
+}
+
+_fetch_plugin(){
+  debug "Fetching plugin ($3) from ($1)."
+  local protocol=$1
+  local url=$2
+  local name=$3
+  local filename=$4
+  local userpass=$(_get_user $url)
+  if [ -n "$userpass" ]; then
+    url=$(echo $url | sed -E "s/^($protocol:\/\/)$userpass@/\1/")
+  fi
+  if [ -d $AVAIL_PLUGIN_PATH/$3 ]; then
+    rm -rf $AVAIL_PLUGIN_PATH/$3
+  fi
+  mkdir -p $AVAIL_PLUGIN_PATH/$3
+  . $(cd `dirname "${BASH_SOURCE[0]}"` && pwd)/protocols/$protocol
+  debug "Plugin ($3) fetched successfully."
+}
+
+_extract_plugin(){
+  debug "Extract plugin ($1) to ($AVAIL_PLUGIN_PATH/$1)."
+  local type=$(file $AVAIL_PLUGIN_PATH/$1/$2 | awk '{print tolower($0)}')
+  if [[ $type == *" tar "* ]]; then
+    tar -xvf $AVAIL_PLUGIN_PATH/$1/$2 -C $AVAIL_PLUGIN_PATH/$1
+  elif [[ $type == *" zip "* ]]; then
+    unzip $AVAIL_PLUGIN_PATH/$1/$2 -d $AVAIL_PLUGIN_PATH/$1
+  else
+    debug "Couldn't extract plugin ($1) with the given type ($type).";
+    exit 1;
+  fi
+  debug "Plugin ($1) extracted successfully."
+}
+
+_enable_plugin(){
+  plugn enable $1 || (debug "Couldn't enable plugin ($1)." && exit 1);
+  debug "Plugin ($1) enabled successfully."
+}
+
+main(){
+  local url=$(echo $PAYLOAD | cut -d" " -f 1);
+  local name=$(echo $PAYLOAD | cut -d" " -f 2);
+  debug url=$url name=$name;
+  local protocol=$(echo "$url" | awk -F: '{print $1}');
+  if [ "$protocol" = "git" ] || [ "${url##*.}" = "git" ]; then
+    _fetch_plugin git $url $name
+    _enable_plugin $name
+  elif [ "$protocol" = "consul" ]; then
+    local filename=`date +%s%N`
+    _fetch_plugin consul $url $name $filename
+    _enable_plugin $name
+  elif [ "$protocol" = "http" ] ||
+      [ "$protocol" = "https" ]; then
+    local filename=`date +%s%N`
+    _fetch_plugin $protocol $url $name $filename
+    _extract_plugin $name $filename
+    _enable_plugin $name
+  elif plugn install $url $name; then
+    debug "Plugin ($name) installed successfully."
+    _enable_plugin $name
+  else
+    if [ $? -eq 128 ]; then
+      debug "Plugin ($name) already installed".
+    else
+      debug "Couldn't install plugin ($name) from specified URL.";
+      exit 1;
+    fi
+  fi
+}
+
+debug(){
+  [[ "$DEBUG" ]] && echo "[DEBUG] $*" >> $LOGFILE
+}
+
+[[ "$0" == "$BASH_SOURCE" ]] && main "$@"

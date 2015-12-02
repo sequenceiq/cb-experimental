@@ -1,0 +1,9 @@
+{
+  "name": "titan-recipe",
+  "description": "sets up Titan Distributed Graph Database on an Ambari cluster",
+  "properties": {
+  },
+  "plugins": { 
+      "https://github.com/sequenceiq/consul-plugins-titan.git": "ONE_NODE"
+  }
+}

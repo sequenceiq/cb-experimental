@@ -1,0 +1,9 @@
+{
+  "name": "spark-recipe",
+  "description": "sets up Apache Spark on an Ambari cluster",
+  "properties": {
+  },
+  "plugins": [
+    "https://github.com/sequenceiq/consul-plugins-spark.git"
+  ]
+}

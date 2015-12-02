@@ -1,0 +1,11 @@
+[plugin]
+name = "titan"
+description = "Install Titan Distributed Graph Database to HDP cluster"
+version = "1.0"
+maintainer_name = "SequenceIQ"
+maintainer_email = "info@sequenceiq.com"
+website_url = "http://github.com/sequenceiq/consul-plugins-titan"
+
+[plugin.config]
+
+[plugin.compatibility]

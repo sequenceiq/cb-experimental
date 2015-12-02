@@ -1,0 +1,5 @@
+.deps
+.schema
+Profile
+*.yml
+release
