@@ -1,5 +1,0 @@
-git init
-git remote add origin git@github.com:sequenceiq/docker-consul.git
-git pull origin master
-
-

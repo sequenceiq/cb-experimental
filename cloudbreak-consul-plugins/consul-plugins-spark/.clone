@@ -1,3 +1,0 @@
-git init
-git remote add origin git@github.com:sequenceiq/consul-plugins-spark.git
-git pull origin master

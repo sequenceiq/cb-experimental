@@ -2,3 +2,131 @@
 	path = cloudbreak-core
 	url = git@github.com:sequenceiq/cloudbreak.git
 	branch = ap
+[submodule "cloudbreak-admin"]
+	path = cloudbreak-admin
+	url = git@github.com:sequenceiq/sultans.git
+	branch = ap
+[submodule "cloudbreak-autoscale"]
+	path = cloudbreak-autoscale
+	url = git@github.com:sequenceiq/periscope.git
+	branch = ap
+[submodule "cloudbreak-bootstrap"]
+	path = cloudbreak-bootstrap
+	url = git@github.com:sequenceiq/munchausen.git
+	branch = master
+[submodule "cloudbreak-images"]
+	path = cloudbreak-images
+	url = git@github.com:sequenceiq/cloudbreak-images.git
+	branch = centos-7
+[submodule "cloudbreak-rest-client"]
+	path = cloudbreak-rest-client
+	url = git@github.com:sequenceiq/cloudbreak-rest-client.git
+	branch = ap
+[submodule "cloudbreak-shell"]
+	path = cloudbreak-shell
+	url = git@github.com:sequenceiq/cloudbreak-shell.git
+	branch = ap
+[submodule "cloudbreak-web"]
+	path = cloudbreak-web
+	url = git@github.com:sequenceiq/uluwatu.git
+	branch = ap
+[submodule "consul-plugins-ambari-start-stop"]
+	path = cloudbreak-consul-plugins/consul-plugins-ambari-start-stop
+	url = git@github.com:sequenceiq/consul-plugins-ambari-start-stop.git
+	branch = master
+[submodule "consul-plugins-gcp-p12"]
+	path = cloudbreak-consul-plugins/consul-plugins-gcp-p12
+	url = git@github.com:sequenceiq/consul-plugins-gcp-p12.git
+	branch = master
+[submodule "consul-plugins-gcs-connector"]
+	path = cloudbreak-consul-plugins/consul-plugins-gcs-connector
+	url = git@github.com:sequenceiq/consul-plugins-gcs-connector.git
+	branch = master
+[submodule "consul-plugins-install"]
+	path = cloudbreak-consul-plugins/consul-plugins-install
+	url = git@github.com:sequenceiq/consul-plugins-install.git
+	branch = master
+[submodule "consul-plugins-kerberos"]
+	path = cloudbreak-consul-plugins/consul-plugins-kerberos
+	url = git@github.com:sequenceiq/consul-plugins-kerberos.git
+	branch = master
+[submodule "consul-plugins-ranger-db"]
+	path = cloudbreak-consul-plugins/consul-plugins-ranger-db
+	url = git@github.com:sequenceiq/consul-plugins-ranger-db.git
+	branch = master
+[submodule "consul-plugins-spark"]
+	path = cloudbreak-consul-plugins/consul-plugins-spark
+	url = git@github.com:sequenceiq/consul-plugins-spark.git
+	branch = master
+[submodule "consul-plugins-titan"]
+	path = cloudbreak-consul-plugins/consul-plugins-titan
+	url = git@github.com:sequenceiq/consul-plugins-titan.git
+	branch = master
+[submodule "docker-ambari"]
+	path = dockerfiles/docker-ambari
+	url = git@github.com:sequenceiq/docker-ambari.git
+	branch = master
+[submodule "docker-ambari-warmup"]
+	path = dockerfiles/docker-ambari-warmup
+	url = git@github.com:sequenceiq/docker-ambari-warmup.git
+	branch = master
+[submodule "docker-cb-gateway-nginx"]
+	path = dockerfiles/docker-cb-gateway-nginx
+	url = git@github.com:sequenceiq/docker-cb-gateway-nginx.git
+	branch = master
+[submodule "docker-cbdb"]
+	path = dockerfiles/docker-cbdb
+	url = git@github.com:sequenceiq/docker-cbdb.git
+	branch = master
+[submodule "docker-cloudbreak-autoscale"]
+	path = dockerfiles/docker-cloudbreak-autoscale
+	url = git@github.com:sequenceiq/docker-periscope.git
+	branch = master
+[submodule "docker-cloudbreak-core"]
+	path = dockerfiles/docker-cloudbreak-core
+	url = git@github.com:sequenceiq/docker-cloudbreak.git
+	branch = master
+[submodule "docker-cloudbreak-shell"]
+	path = dockerfiles/docker-cloudbreak-shell
+	url = git@github.com:sequenceiq/docker-cb-shell.git
+	branch = master
+[submodule "docker-consul"]
+	path = dockerfiles/docker-consul
+	url = git@github.com:sequenceiq/docker-consul.git
+	branch = master
+[submodule "docker-consul-watch-plugn"]
+	path = dockerfiles/docker-consul-watch-plugn
+	url = git@github.com:sequenceiq/docker-consul-watch-plugn.git
+	branch = master
+[submodule "docker-kerberos"]
+	path = dockerfiles/docker-kerberos
+	url = git@github.com:sequenceiq/docker-kerberos.git
+	branch = master
+[submodule "docker-logrotate"]
+	path = dockerfiles/docker-logrotate
+	url = git@github.com:sequenceiq/docker-logrotate.git
+	branch = master
+[submodule "docker-pcdb"]
+	path = dockerfiles/docker-pcdb
+	url = git@github.com:sequenceiq/docker-pcdb.git
+	branch = master
+[submodule "docker-registrator"]
+	path = dockerfiles/docker-registrator
+	url = git@github.com:sequenceiq/registrator.git
+	branch = master
+[submodule "docker-uaa"]
+	path = dockerfiles/docker-uaa
+	url = git@github.com:sequenceiq/docker-uaa.git
+	branch = master
+[submodule "docker-uaadb"]
+	path = dockerfiles/docker-uaadb
+	url = git@github.com:sequenceiq/docker-uaadb.git
+	branch = master
+[submodule "ambari-rest-client"]
+	path = ambari-rest-client
+	url = git@github.com:sequenceiq/ambari-rest-client.git
+	branch = ap
+[submodule "azure-rest-client"]
+	path = azure-rest-client
+	url = git@github.com:sequenceiq/azure-rest-client.git
+	branch = ap
