@@ -200,7 +200,7 @@ allprojects {
     apply plugin: 'groovy'
 
 
-    group = 'com.sequenceiq'
+    group = 'com.sequenceiq1'
 }
 
 
