@@ -1,11 +1,4 @@
 apply plugin: 'groovy'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'maven'
-
-sourceCompatibility = 1.7
-group = 'com.sequenceiq'
-
 
 jar {
     baseName = 'ambari-client21'
