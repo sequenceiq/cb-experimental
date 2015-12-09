@@ -28,7 +28,6 @@ final class VersionUtils {
             }
             list
         }
-        console(label)
         Map preRelease = versionTags.findAll { versionTag ->
             versionTag.version.preReleaseVersion.contains(label)
         }.min { a, b ->
