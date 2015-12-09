@@ -1,3 +1,7 @@
+AWS_ACCESS_KEY=
+AWS_SECRET_ACCESS_KEY=
+
+
 
 build: clean-build-folder
 	echo build java projects
