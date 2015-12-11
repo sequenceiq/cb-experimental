@@ -26,5 +26,4 @@ dependencies {
     compile project(':cloudbreak-rest-client')
 
     testCompile 'org.springframework.boot:spring-boot-starter-test:1.0.2.RELEASE'
-    deployerJars 'org.springframework.build.aws:org.springframework.build.aws.maven:3.0.0.RELEASE'
 }

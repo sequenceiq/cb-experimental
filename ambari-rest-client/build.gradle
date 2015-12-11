@@ -1,4 +1,5 @@
 apply plugin: 'groovy'
+apply plugin: 'maven'
 
 jar {
     baseName = 'ambari-client21'
@@ -17,7 +18,6 @@ dependencies {
     testCompile 'org.easymock:easymock:3.2'
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
 
-    deployerJars 'org.springframework.build.aws:org.springframework.build.aws.maven:3.0.0.RELEASE'
 }
 
 task buildInfo(type: BuildInfoTask) {

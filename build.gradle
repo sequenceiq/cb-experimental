@@ -203,38 +203,9 @@ allprojects {
 }
 
 
-
-subprojects {
-
-    sourceCompatibility = 1.7
-    targetCompatibility = 1.7
-
-
-    repositories {
-        mavenCentral()
-        maven { url "http://maven.sequenceiq.com/snapshots" }
-        maven { url "http://maven.sequenceiq.com/releases" }
-        maven { url "http://repo.spring.io/libs-release" }
-        maven { url "http://seq-repo.s3-website-eu-west-1.amazonaws.com/public" }
-        maven { url "http://seq-repo.s3-website-eu-west-1.amazonaws.com/releases" }
-        maven { url "http://seq-repo.s3-website-eu-west-1.amazonaws.com/snapshots" }
-    }
-
-    configurations {
-        deployerJars
-        all*.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
-        all*.exclude group: 'log4j'
-        all*.exclude group: 'com.google.guava', module: 'guava-jdk5'
-    }
-
-    dependencies {
-        deployerJars("org.springframework.build.aws:org.springframework.build.aws.maven:3.0.0.RELEASE")
-    }
-
-    uploadArchives {
+uploadArchives {
         repositories {
             mavenDeployer {
-                configuration = configurations.deployerJars
                 repository(url: "s3://maven.sequenceiq.com/releases") {
                     authentication(userName: "$System.env.AWS_ACCESS_KEY", passphrase: "$System.env.AWS_SECRET_ACCESS_KEY")
                 }
@@ -244,6 +215,28 @@ subprojects {
             }
         }
     }
+
+
+
+
+subprojects {
+
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://maven.sequenceiq.com/snapshots" }
+        maven { url "http://maven.sequenceiq.com/releases" }
+        maven { url "http://repo.spring.io/libs-release" }
+        maven { url "http://seq-repo.s3-website-eu-west-1.amazonaws.com/public" }
+        maven { url "http://seq-repo.s3-website-eu-west-1.amazonaws.com/releases" }
+        maven { url "http://seq-repo.s3-website-eu-west-1.amazonaws.com/snapshots" }
+    }
+
+    
+    
 
     checkstyleMain {
         ignoreFailures = false

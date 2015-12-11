@@ -1,13 +1,6 @@
 apply plugin: 'groovy'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
 apply plugin: 'maven'
-apply plugin: 'java'
 apply plugin: 'application'
-
-sourceCompatibility = 1.7
-group = 'com.sequenceiq'
-
 
 jar {
     baseName = 'azure-rest-client'
@@ -32,7 +25,6 @@ dependencies {
 
     testCompile 'org.easymock:easymock:3.2'
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
-    deployerJars 'org.springframework.build.aws:org.springframework.build.aws.maven:3.0.0.RELEASE'
 }
 
 task buildInfo(type: BuildInfoTask) {
