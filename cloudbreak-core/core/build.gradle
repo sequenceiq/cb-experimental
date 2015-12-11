@@ -17,6 +17,11 @@ apply plugin: 'spring-boot'
 
 mainClassName = 'com.sequenceiq.cloudbreak.CloudbreakApplication'
   
+bootRun {
+   systemProperty 'spring.profiles.active', System.properties['spring.profiles.active']
+    systemProperty 'spring.config.location', System.properties['spring.config.location']
+}
+
 jar {
     baseName = 'cloudbreak-core'
 }
@@ -64,13 +69,13 @@ dependencies {
     compile project(':cloudbreak-core:core-model')
     compile project(':cloudbreak-core:orchestrator-api')
     compile project(':cloudbreak-core:cloud-reactor-api')
-    compile project(':ambari-rest-client')
     runtime project(':cloudbreak-core:orchestrator-swarm')
     runtime project(':cloudbreak-core:cloud-reactor')
     runtime project(':cloudbreak-core:cloud-openstack')
     compile project(':cloudbreak-core:cloud-arm')
     runtime project(':cloudbreak-core:cloud-gcp')
     compile project(':cloudbreak-core:cloud-aws')
+    compile("com.sequenceiq:ambari-client21:2.1.29")
 
     runtime     group: 'activation',                name: 'activation',                     version: '1.0.2'
 

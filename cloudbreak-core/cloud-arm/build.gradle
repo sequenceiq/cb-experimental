@@ -16,8 +16,7 @@ dependencies {
     compile project(':cloudbreak-core:cloud-api')
     compile project(':cloudbreak-core:cloud-common')
     compile project(':cloudbreak-core:cloud-reactor')
-    compile project(':azure-rest-client')
-
+    compile ("com.sequenceiq:azure-rest-client:0.1.52")
     compile group: 'org.slf4j',                     name: 'slf4j-api',                      version: slf4jApiVersion
     compile group: 'org.springframework',           name: 'spring-context-support',         version: '4.0.3.RELEASE'
     compile group: 'javax',                         name: 'javaee-api',                     version: '7.0'

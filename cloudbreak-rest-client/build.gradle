@@ -1,3 +1,7 @@
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'license-report'
 apply plugin: 'application'
 
 jar {

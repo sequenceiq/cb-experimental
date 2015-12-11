@@ -1,4 +1,28 @@
-apply plugin: 'java'
+import org.ajoberstar.gradle.git.release.opinion.Strategies
+import org.ajoberstar.gradle.git.release.opinion.Strategies.BuildMetadata
+import org.ajoberstar.gradle.git.release.opinion.Strategies.PreRelease
+import org.ajoberstar.gradle.git.release.semver.ChangeScope
+import org.ajoberstar.gradle.git.release.semver.PartialSemVerStrategy
+import org.ajoberstar.gradle.git.release.semver.SemVerStrategyState
+import org.ajoberstar.gradle.git.release.semver.SemVerStrategy
+import org.ajoberstar.gradle.git.release.semver.TagUtil
+import org.ajoberstar.grgit.Grgit
+import com.github.zafarkhaja.semver.Version
 
-sourceCompatibility = 1.7
 
+import static org.ajoberstar.gradle.git.release.semver.StrategyUtil.*
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.ajoberstar:gradle-git:1.2.0"
+        classpath "com.smokejumperit.gradle.license:Gradle-License-Report:0.0.2"
+    }
+}
+allprojects {
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+}

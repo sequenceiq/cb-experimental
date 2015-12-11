@@ -1,8 +1,14 @@
 apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'license-report'
+apply plugin: 'application'
 
 jar {
     baseName = 'ambari-client21'
 }
+
+mainClassName = "com.sequenceiq.cloud.ambari.client.App"
 
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.7'
@@ -18,6 +24,15 @@ dependencies {
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
 
     deployerJars 'org.springframework.build.aws:org.springframework.build.aws.maven:3.0.0.RELEASE'
+}
+
+
+repositories {
+    mavenCentral()
+    maven { url "http://maven.sequenceiq.com/snapshots" }
+    maven { url "http://maven.sequenceiq.com/release" }
+    maven { url "http://seq-repo.s3-website-eu-west-1.amazonaws.com/releases" }
+    maven { url "http://seq-repo.s3-website-eu-west-1.amazonaws.com/snapshots" }
 }
 
 task buildInfo(type: BuildInfoTask) {

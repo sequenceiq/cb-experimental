@@ -1,8 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-sourceCompatibility = 1.7
-
 jar {
     baseName = 'cloudbreak-shell'
     manifest {
@@ -24,7 +22,6 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.3.5'
 
     compile project(':cloudbreak-rest-client')
-
     testCompile 'org.springframework.boot:spring-boot-starter-test:1.0.2.RELEASE'
     deployerJars 'org.springframework.build.aws:org.springframework.build.aws.maven:3.0.0.RELEASE'
 }
